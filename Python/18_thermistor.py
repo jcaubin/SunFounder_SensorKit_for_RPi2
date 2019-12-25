@@ -30,10 +30,12 @@ def loop():
 	status = 1
 	tmp = 1
 	while True:
-		analogVal = ADC.read(0)
-		Vr = 5 * float(analogVal) / 255
-		Rt = 10000 * Vr / (5 - Vr)
-		temp = 1/(((math.log(Rt / 10000)) / 3950) + (1 / (273.15+25)))
+		analogVal = ADC.read(0) #señal 0-255
+		Vr = 5 * (float(analogVal) / 255) #voltaje 0-5 voltios
+		Rt = (10000 * Vr) / (5 - Vr) # resistencia del thermistor
+
+		
+		temp = 1/(((math.log(Rt / 10000)) / 3984) + (1 / (273.15+25)))
 		temp = temp - 273.15
 		print ('temperature = ', temp, 'C')
 
@@ -41,7 +43,7 @@ def loop():
 		# which module you use. DONOT UNCOMMENT BOTH!
 		#################################################
 		# 1. For Analog Temperature module(with DO)
-		tmp = GPIO.input(DO)
+		#tmp = GPIO.input(DO)
 		# 
 		# 2. For Thermister module(with sig pin)
 		#if temp > 33:
@@ -50,9 +52,9 @@ def loop():
 		#	tmp = 1
 		#################################################
 
-		if tmp != status:
-			Print(tmp)
-			status = tmp
+		#if tmp != status:
+		#	Print(tmp)
+		#	status = tmp
 
 		time.sleep(0.2)
 
